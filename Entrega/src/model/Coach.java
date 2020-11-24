@@ -1,5 +1,5 @@
 package model;
 
-public class Coach {
-    
+public abstract class Coach {
+    private int experienceYears; //Years of experience
 }
