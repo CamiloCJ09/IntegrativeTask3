@@ -30,28 +30,23 @@ public class Club {
      * @param name  Name of the player
      * @param idNum Id of the player
      * @param salary Salary of the player
-     * @param status Status of the employee
      * @param numberInShirt Number in the jersey
      * @param numberOfGoals Amount of goals
      * @return String, with a confirmation message
      */
-    public String addPlayer(int index,String name, String idNum, int salary, int status,
+    public String addPlayer(int index,String name, String idNum, int salary,
     String numberInShirt,int numberOfGoals){
-        Status playerStatus; //! Variable donde guardamos si el player es activo o no
         String msg = "";
-        //! Obteniendo si el empleado, en este caso jugador está activo
-        if(status == 1){playerStatus = Status.ACTIVE;}
-        else{playerStatus = Status.INACTIVE;}
         //! Resolvemos si el jugador a añadir es del equipo A o B
         if(index == 1){
-            Player thisPlayer = teamA.addPlayer(name, idNum, salary, playerStatus, numberInShirt, numberOfGoals);
+            Player thisPlayer = teamA.addPlayer(name, idNum, salary, numberInShirt, numberOfGoals);
             if(!thisPlayer.equals(null)){
                 employees.add(thisPlayer);
                 msg = "Jugador añadido al equipo y a la nomina de manera correcta";
             }
             else{msg = "No se ha podido añadir al jugador";}
         }else{
-            Player thisPlayer = teamB.addPlayer(name, idNum, salary, playerStatus, numberInShirt, numberOfGoals);
+            Player thisPlayer = teamB.addPlayer(name, idNum, salary, numberInShirt, numberOfGoals);
             if(!thisPlayer.equals(null)){
                 employees.add(thisPlayer);
                 msg = "Jugador añadido al equipo y a la nomina de manera correcta";
@@ -68,7 +63,6 @@ public class Club {
      * @param name Name of the coach
      * @param idNum Id of the coach
      * @param salary Salary of the coach
-     * @param status Status from the employee
      * @param amountOfManagedTeams Amount of managed teams
      * @param wonChampionships Amount of championships that have won
      * @param coachSkills Coach skills
@@ -76,20 +70,17 @@ public class Club {
      */
     //! Main Coach 
     //Todo: Organize the skill stuff
-    public String addCoach(int index,int experienceYears, String name, String idNum, int salary, int status,
+    public String addCoach(int index,int experienceYears, String name, String idNum, int salary,
     int amountOfManagedTeams, int wonChampionships, Skill coachSkills){
-        Status coachStatus;
         String msg = "";
-        if(status == 1){coachStatus = Status.ACTIVE;}
-        else{coachStatus = Status.INACTIVE;}
         if(index == 1){
-            Coach thisCoach = teamA.addCoach(experienceYears, name, idNum, salary, coachStatus, amountOfManagedTeams, wonChampionships, coachSkills);
+            Coach thisCoach = teamA.addCoach(experienceYears, name, idNum, salary, amountOfManagedTeams, wonChampionships, coachSkills);
             if(!thisCoach.equals(null)){
                 employees.add(thisCoach);
                 msg = "Entrenador añadido al equipo y a la nomina de manera correcta";
             }else{msg = "No se ha podido añadir al entrenador";}
         }else{
-            Coach thisCoach = teamB.addCoach(experienceYears, name, idNum, salary, coachStatus, amountOfManagedTeams, wonChampionships, coachSkills);
+            Coach thisCoach = teamB.addCoach(experienceYears, name, idNum, salary, amountOfManagedTeams, wonChampionships, coachSkills);
             if(!thisCoach.equals(null)){
                 employees.add(thisCoach);
                 msg = "Entrenador añadido al equipo y a la nomina de manera correcta";
@@ -106,22 +97,56 @@ public class Club {
      * @param name Name of the coach
      * @param idNum Id of the coach
      * @param salary Salary of the coach
-     * @param status Status of the employee
      * @return String
      */
     //! Coach Assistant
-    public String addCoach(int index,boolean wasPlayer, int experienceYears, String name,
+    public String addCoach(int index, boolean wasPlayer, int experienceYears, String name,
     String idNum, int salary, int status){
-        Status coachStatus;
         String msg = "";
-        if(status == 1){coachStatus = Status.ACTIVE;}
-        else{coachStatus = Status.INACTIVE;}
+        
         if(index == 1){
-
+            Coach thisCoachAssistant= teamA.addCoach(wasPlayer, experienceYears, name, idNum, salary);
+            if(!thisCoachAssistant.equals(null)){
+                employees.add(thisCoachAssistant);
+                msg = "Entrenador añadido al equipo y a la nomina de manera correcta";
+            }else{msg = "No se ha podido añadir al entrenador";} 
+        }else{
+            Coach thisCoachAssistant= teamB.addCoach(wasPlayer, experienceYears, name, idNum, salary);
+            if(!thisCoachAssistant.equals(null)){
+                employees.add(thisCoachAssistant);
+                msg = "Entrenador añadido al equipo y a la nomina de manera correcta";
+            }else{msg = "No se ha podido añadir al entrenador";} 
         }
         return msg;
     }
-
+    /**
+     * Method that let fire an employee changing his status
+     * @param index the index of the employee that we want to fire
+     * @param team represents the team of the employee that we want to fire
+     * @return String with a confirmation message
+     */
+    public String fireEmployee(int index, int team){
+        String msg = "";
+        index = index-1;
+        String toFind = employees.get(index).getIdNum(); //! Id number of the employee that we going to fire
+        if(team == 1){
+            if(teamA.fireEmployee(toFind)){
+                employees.get(index).setStatus(Status.INACTIVE);
+                msg = "Empleado despedido con éxito";
+            }else{
+                msg = "No se ha podido despedir al empleado";
+            }
+        }else{
+            if(teamB.fireEmployee(toFind)){
+                employees.get(index).setStatus(Status.INACTIVE);
+                msg = "Empleado despedido con éxito";
+            }else{
+                msg = "No se ha podido despedir al empleado";
+            }
+        }
+        return msg;
+    }
+    
     //! Setters and getters
     public ArrayList<Employee> getEmployees() {
         return employees;

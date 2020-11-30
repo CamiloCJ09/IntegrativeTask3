@@ -5,9 +5,9 @@ public class MainCoach extends Coach{
     private int wonChampionships; //Amount of championship that he have won
     private Skill coachSkills; // Skills from the coach
 
-    public MainCoach(int experienceYears, String name, String idNum, int salary, Status status,
+    public MainCoach(int experienceYears, String name, String idNum, int salary, 
             int amountOfManagedTeams, int wonChampionships, Skill coachSkills) {
-        super(experienceYears, name, idNum, salary, status);
+        super(experienceYears, name, idNum, salary);
         this.amountOfManagedTeams = amountOfManagedTeams;
         this.wonChampionships = wonChampionships;
         this.coachSkills = coachSkills;

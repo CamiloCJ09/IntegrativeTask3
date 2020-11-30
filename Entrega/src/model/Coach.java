@@ -3,8 +3,8 @@ package model;
 public abstract class Coach extends Employee {
     private int experienceYears; //Years of experience
 
-    public Coach(int experienceYears, String name, String idNum, int salary, Status status ){
-        super(name, idNum, salary, status);
+    public Coach(int experienceYears, String name, String idNum, int salary ){
+        super(name, idNum, salary);
         this.experienceYears = experienceYears;
     }
 

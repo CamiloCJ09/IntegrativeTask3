@@ -4,8 +4,8 @@ public class CoachAssistant extends Coach {
     private boolean wasPlayer;
 
     public CoachAssistant(boolean wasPlayer, int experienceYears, String name,
-     String idNum, int salary, Status status){
-        super(experienceYears,name,idNum,salary, status);
+     String idNum, int salary){
+        super(experienceYears,name,idNum,salary);
         this.wasPlayer = wasPlayer;
     }
 

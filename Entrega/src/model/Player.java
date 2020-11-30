@@ -5,14 +5,24 @@ public class Player extends Employee{
     private double averageRating;
     private int numberOfGoals;
 
-    public Player(String name, String idNum, int salary, Status status,
+    public Player(String name, String idNum, int salary,
      String numberInShirt,int numberOfGoals) {
-        super(name, idNum, salary, status);
+        super(name, idNum, salary);
         this.numberInShirt = numberInShirt;
-        this.averageRating = averageRating;
+        this.averageRating = 0.0;
         this.numberOfGoals = numberOfGoals;
     }
-
+    /**
+     * Method that show the information of each player
+     * @return
+     */
+    public String playerToString(){
+        String msg = super.employeeToString();
+        msg += "Number in shirt: "+numberInShirt+"\n"+
+                "Average rating: "+averageRating+"\n"+
+                "Amount of goals: "+numberOfGoals+"\n";
+        return msg;
+    }
     public String getNumberInShirt() {
         return numberInShirt;
     }
