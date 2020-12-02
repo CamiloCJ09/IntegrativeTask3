@@ -16,5 +16,14 @@ public class CoachAssistant extends Coach {
     public void setWasPlayer(boolean wasPlayer) {
         this.wasPlayer = wasPlayer;
     }
+    /**
+     * return String
+     */
+    @Override
+    public String employeeToString() {
+        String msg = super.employeeToString();
+        msg += "CoachAssistant [wasPlayer=" + wasPlayer + "]";
+        return msg;
+    }
 
 }

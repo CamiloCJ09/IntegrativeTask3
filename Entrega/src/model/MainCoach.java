@@ -1,16 +1,35 @@
 package model;
 
-public class MainCoach extends Coach{
+public class MainCoach extends Coach implements Profitable {
     private int amountOfManagedTeams; // Amount of teams that he has managed
-    private int wonChampionships; //Amount of championship that he have won
+    private int wonChampionships; // Amount of championship that he have won
     private Skill coachSkills; // Skills from the coach
 
-    public MainCoach(int experienceYears, String name, String idNum, int salary, 
-            int amountOfManagedTeams, int wonChampionships, Skill coachSkills) {
+    public MainCoach(int experienceYears, String name, String idNum, int salary, int amountOfManagedTeams,
+            int wonChampionships, Skill coachSkills) {
         super(experienceYears, name, idNum, salary);
         this.amountOfManagedTeams = amountOfManagedTeams;
         this.wonChampionships = wonChampionships;
         this.coachSkills = coachSkills;
+    }
+
+    @Override
+    public String employeeToString() {
+        String msg = super.employeeToString();
+        msg += "Amount of managed teams: " + amountOfManagedTeams + "\n" + "Amount of won championship: "
+                + wonChampionships + "\n" + "Coach Skill: " + coachSkills.toString();
+        return msg;
+    }
+    
+    public double calculateMarketPrice() {
+        double marketPrice = (getSalary()*10)+(getExperienceYears()*100)+(wonChampionships*50);
+        return marketPrice;
+    }
+
+    
+    public double calculateStars() {
+        double stars = (5+(wonChampionships/10));
+        return stars;
     }
 
     public int getAmountOfManagedTeams() {
@@ -36,6 +55,8 @@ public class MainCoach extends Coach{
     public void setCoachSkills(Skill coachSkills) {
         this.coachSkills = coachSkills;
     }
+
+    
 
     
 }

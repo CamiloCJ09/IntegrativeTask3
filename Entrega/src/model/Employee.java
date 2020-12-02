@@ -8,6 +8,9 @@ public abstract class Employee {
 
     public Employee(String name, String idNum, int salary) {
         this.status = Status.ACTIVE;
+        this.name = name;
+        this.idNum = idNum;
+        this.salary = salary;
     }
     /**
      * Method that let show the basic info from an employee

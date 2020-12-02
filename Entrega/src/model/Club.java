@@ -22,6 +22,8 @@ public class Club {
         employees = new ArrayList<Employee>();
         dressingRoom = new DressingRoom[7][7];
         office = new Office[6][6];
+        teamA = new Team("A");
+        teamB = new Team("B");
     }
     //Todo: Methods
     /**
@@ -35,19 +37,24 @@ public class Club {
      * @return String, with a confirmation message
      */
     public String addPlayer(int index,String name, String idNum, int salary,
-    String numberInShirt,int numberOfGoals){
+    String numberInShirt,int numberOfGoals, String position){
         String msg = "";
+        Position playerPosition = Position.valueOf(position);
         //! Resolvemos si el jugador a añadir es del equipo A o B
         if(index == 1){
-            Player thisPlayer = teamA.addPlayer(name, idNum, salary, numberInShirt, numberOfGoals);
-            if(!thisPlayer.equals(null)){
-                employees.add(thisPlayer);
+            //Todo tomorrow: Fix this fucking shit
+            Player myPlayer = new Player(name, idNum, salary, numberInShirt, numberOfGoals, playerPosition);
+            boolean booleanPlayer = teamA.addPlayer(myPlayer);
+            if(booleanPlayer){
+                System.out.println("Entró a la condición");
+                employees.add(myPlayer);
                 msg = "Jugador añadido al equipo y a la nomina de manera correcta";
             }
             else{msg = "No se ha podido añadir al jugador";}
         }else{
-            Player thisPlayer = teamB.addPlayer(name, idNum, salary, numberInShirt, numberOfGoals);
-            if(!thisPlayer.equals(null)){
+            Player thisPlayer = new Player(name, idNum, salary, numberInShirt, numberOfGoals, playerPosition);
+            boolean booleanPlayer = teamB.addPlayer(thisPlayer);
+            if(booleanPlayer){
                 employees.add(thisPlayer);
                 msg = "Jugador añadido al equipo y a la nomina de manera correcta";
             }
@@ -71,17 +78,20 @@ public class Club {
     //! Main Coach 
     //Todo: Organize the skill stuff
     public String addCoach(int index,int experienceYears, String name, String idNum, int salary,
-    int amountOfManagedTeams, int wonChampionships, Skill coachSkills){
+    int amountOfManagedTeams, int wonChampionships, String coachSkills){
         String msg = "";
+        Skill coachSki = Skill.valueOf(coachSkills);
         if(index == 1){
-            Coach thisCoach = teamA.addCoach(experienceYears, name, idNum, salary, amountOfManagedTeams, wonChampionships, coachSkills);
-            if(!thisCoach.equals(null)){
+            MainCoach thisCoach = new MainCoach(experienceYears, name, idNum, salary, amountOfManagedTeams, wonChampionships, coachSki);
+            boolean myCoach = teamA.addCoach(thisCoach);
+            if(myCoach){
                 employees.add(thisCoach);
                 msg = "Entrenador añadido al equipo y a la nomina de manera correcta";
             }else{msg = "No se ha podido añadir al entrenador";}
         }else{
-            Coach thisCoach = teamB.addCoach(experienceYears, name, idNum, salary, amountOfManagedTeams, wonChampionships, coachSkills);
-            if(!thisCoach.equals(null)){
+            MainCoach thisCoach = new MainCoach(experienceYears, name, idNum, salary, amountOfManagedTeams, wonChampionships, coachSki);
+            boolean myCoach = teamB.addCoach(thisCoach);
+                if(myCoach){
                 employees.add(thisCoach);
                 msg = "Entrenador añadido al equipo y a la nomina de manera correcta";
             }else{msg = "No se ha podido añadir al entrenador";}
@@ -101,21 +111,30 @@ public class Club {
      */
     //! Coach Assistant
     public String addCoach(int index, boolean wasPlayer, int experienceYears, String name,
-    String idNum, int salary, int status){
+    String idNum, int salary){
         String msg = "";
         
         if(index == 1){
-            Coach thisCoachAssistant= teamA.addCoach(wasPlayer, experienceYears, name, idNum, salary);
-            if(!thisCoachAssistant.equals(null)){
+            CoachAssistant thisCoachAssistant = new CoachAssistant(wasPlayer, experienceYears, name, idNum, salary);
+            boolean booleanCoachAssistant = teamA.addCoach(thisCoachAssistant);
+            if(booleanCoachAssistant){
                 employees.add(thisCoachAssistant);
                 msg = "Entrenador añadido al equipo y a la nomina de manera correcta";
             }else{msg = "No se ha podido añadir al entrenador";} 
         }else{
-            Coach thisCoachAssistant= teamB.addCoach(wasPlayer, experienceYears, name, idNum, salary);
-            if(!thisCoachAssistant.equals(null)){
+            CoachAssistant thisCoachAssistant = new CoachAssistant(wasPlayer, experienceYears, name, idNum, salary);
+            boolean booleanCoachAssistant = teamB.addCoach(thisCoachAssistant);
+            if(booleanCoachAssistant){
                 employees.add(thisCoachAssistant);
                 msg = "Entrenador añadido al equipo y a la nomina de manera correcta";
             }else{msg = "No se ha podido añadir al entrenador";} 
+        }
+        return msg;
+    }
+    public String showAllEmployeesWithIndex(){
+        String msg = "";
+        for(int i = 0; i < employees.size(); i++) {
+            msg += "("+(i+1)+")"+employees.get(i).getName()+"\n";
         }
         return msg;
     }
@@ -146,7 +165,21 @@ public class Club {
         }
         return msg;
     }
-    
+    public String showClubInfo(int index){
+        String msg = "";
+        if(index == 1){
+            msg = teamA.showTeamInfo();
+        }else if(index == 2){
+            msg = teamB.showTeamInfo();
+        }else{
+            msg += "Team A\n";
+            msg += teamA.showTeamInfo();
+            msg += "Team B\n";
+            msg += teamB.showTeamInfo();
+        }
+        return msg;
+    }
+
     //! Setters and getters
     public ArrayList<Employee> getEmployees() {
         return employees;

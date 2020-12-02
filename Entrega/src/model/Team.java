@@ -28,70 +28,79 @@ public class Team {
      * @param numberOfGoals Amount of goals
      * @return boolean, that represents if the player has been created
      */
-    public Player addPlayer(String name, String idNum, int salary,
-    String numberInShirt,int numberOfGoals){
-        Player answer = null; //! Represents if the player can be created
+    public boolean addPlayer(Player myPlayer){
+         //! Represents if the player can be created
         boolean out = false;
         for(int i = 0; i < players.length && !out; i++){
+            System.out.println("Entro al ciclo");
             if(players[i] == null){ //! Looking for an empty space in the array
-                players[i] = new Player(name, idNum, salary, numberInShirt, numberOfGoals);
-                answer = players[i];
+                System.out.println("Entro al if");
+                players[i] = myPlayer;
+                System.out.println("Jugador añadido");
                 out = true;
             }
+        }
+        return out;
+    }
+    
+    //! Main Coach
+    /**
+     * 
+     * @param myCoach
+     * @return
+     */
+    public boolean addCoach(MainCoach myCoach){
+        boolean answer = false;
+        if(mainCoach == null){
+            mainCoach = myCoach;
+            answer = true;
         }
         return answer;
     }
-    //! Main Coach
-    /**
-     * Method that create a Main Coach
-     * @param experienceYears Amount of experience years
-     * @param name Name of the coach
-     * @param idNum Id of the coach
-     * @param salary Salary of the coach
-     * @param status Status from the employee
-     * @param amountOfManagedTeams Amount of managed teams
-     * @param wonChampionships Amount of championships that have won
-     * @param coachSkills Coach skills
-     * @return, with the player if is been created
-     */
-    public Coach addCoach(int experienceYears, String name, String idNum, int salary, 
-    int amountOfManagedTeams, int wonChampionships, Skill coachSkills){
-        Coach myCoach = null;
-        if(mainCoach.equals(null)){
-            myCoach = new MainCoach(experienceYears, name, idNum, salary, amountOfManagedTeams, wonChampionships, coachSkills);
-        }
-        return myCoach;
-    }
     //! Coach Assistant
-    public Coach addCoach(boolean wasPlayer, int experienceYears, String name,
-    String idNum, int salary){
-        CoachAssistant myCoach = null;
+    /**
+     * 
+     * @param myCoachAssistant
+     * @return
+     */
+    public boolean addCoach(CoachAssistant myCoachAssistant){
         boolean out = false;
         for(int i = 0; i < assistantsCoach.length && !out; i++){
-            if(assistantsCoach[i].equals(null)){
-                myCoach = new CoachAssistant(wasPlayer, experienceYears, name, idNum, salary);
-                assistantsCoach[i] = myCoach;
+            if(assistantsCoach[i] == null){
+                assistantsCoach[i] = myCoachAssistant;
                 out = true;
             }
         }
-        return myCoach;
+        return out;
     }
+    
+    /**
+     * Method that let fire an employee from the team
+     * @param idNum represents the ID number of the employee that we want to fire
+     * @return
+     */
     public boolean fireEmployee(String idNum){
         boolean answer = false;
-        if(mainCoach.getIdNum().equals(idNum)){
-            mainCoach = null;
-            answer = true;
-        }
-        for(int i = 0; i < assistantsCoach.length && !answer; i++){
-            if(assistantsCoach[i].getIdNum().equals(idNum)){
-                assistantsCoach[i] = null;
+        if(mainCoach != null){
+            if(mainCoach.getIdNum().equals(idNum)){
+                mainCoach = null;
                 answer = true;
             }
         }
+        for(int i = 0; i < assistantsCoach.length && !answer; i++){
+            if(assistantsCoach[i] != null){
+                if(assistantsCoach[i].getIdNum().equals(idNum)){
+                    assistantsCoach[i] = null;
+                    answer = true;
+                }
+            }
+        }
         for(int i = 0; i < players.length && !answer; i++){
-            if(players[i].getIdNum().equals(idNum)){
-                players[i] = null;
-                answer = true;
+            if(players[i] != null){
+                if(players[i].getIdNum().equals(idNum)){
+                    players[i] = null;
+                    answer = true;
+                }
             }
         }
         return answer;
@@ -99,7 +108,28 @@ public class Team {
 
     public String showTeamInfo(){
         String msg = "";
-        
+        msg += "Main Coach:\n";
+        if(mainCoach != null){
+            msg += mainCoach.employeeToString();
+        }
+        msg += "Coach assistants:\n";
+        if(assistantsCoach[0] != null){
+            for(int i = 0; i < assistantsCoach.length; i++){
+                if(assistantsCoach[i] != null){
+                    msg += "********************";
+                    msg += assistantsCoach[i].employeeToString()+"\n";   
+                }
+            }
+        }
+        msg += "Players:\n";
+        if(players != null){
+            for(int i = 0; i < players.length; i++){
+                if(players[i] != null){
+                    msg += "********************";
+                    msg += players[i].employeeToString()+"\n";
+                }
+            }
+        }
         return msg;
     }
     //! Setters and getters
