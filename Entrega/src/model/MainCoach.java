@@ -17,7 +17,8 @@ public class MainCoach extends Coach implements Profitable {
     public String employeeToString() {
         String msg = super.employeeToString();
         msg += "Amount of managed teams: " + amountOfManagedTeams + "\n" + "Amount of won championship: "
-                + wonChampionships + "\n" + "Coach Skill: " + coachSkills.toString();
+                + wonChampionships + "\n" + "Coach Skill: " + coachSkills.toString() + "\n" +"Marker price: " +
+                calculateMarketPrice() + "\n" + "Stars: " + calculateStars();
         return msg;
     }
     

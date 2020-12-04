@@ -32,11 +32,8 @@ public class Team {
          //! Represents if the player can be created
         boolean out = false;
         for(int i = 0; i < players.length && !out; i++){
-            System.out.println("Entro al ciclo");
             if(players[i] == null){ //! Looking for an empty space in the array
-                System.out.println("Entro al if");
                 players[i] = myPlayer;
-                System.out.println("Jugador añadido");
                 out = true;
             }
         }
@@ -116,7 +113,7 @@ public class Team {
         if(assistantsCoach[0] != null){
             for(int i = 0; i < assistantsCoach.length; i++){
                 if(assistantsCoach[i] != null){
-                    msg += "********************";
+                    msg += "********************\n";
                     msg += assistantsCoach[i].employeeToString()+"\n";   
                 }
             }
@@ -125,7 +122,7 @@ public class Team {
         if(players != null){
             for(int i = 0; i < players.length; i++){
                 if(players[i] != null){
-                    msg += "********************";
+                    msg += "********************\n";
                     msg += players[i].employeeToString()+"\n";
                 }
             }

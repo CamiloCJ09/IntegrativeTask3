@@ -7,10 +7,10 @@ public class Player extends Employee implements Profitable {
     private int numberOfGoals;
     private Position position;
 
-    public Player(String name, String idNum, int salary, String numberInShirt, int numberOfGoals, Position position) {
+    public Player(String name, String idNum, int salary, String numberInShirt, int numberOfGoals, Position position, double averageRating) {
         super(name, idNum, salary);
         this.numberInShirt = numberInShirt;
-        this.averageRating = 0.0;
+        this.averageRating = averageRating;
         this.numberOfGoals = numberOfGoals;
         this.position = position;
     }
@@ -24,7 +24,8 @@ public class Player extends Employee implements Profitable {
     public String employeeToString() {
         String msg = super.employeeToString();
         msg += "Position: " + position + "\n" + "Number in shirt: " + numberInShirt + "\n" + "Average rating: "
-                + averageRating + "\n" + "Amount of goals: " + numberOfGoals + "\n";
+                + averageRating + "\n" + "Amount of goals: " + numberOfGoals + "\n" + "Market price: " + calculateMarketPrice()+
+                "\n" + "Stars: " + calculateStars();
         return msg;
     }
     public double calculateMarketPrice() {

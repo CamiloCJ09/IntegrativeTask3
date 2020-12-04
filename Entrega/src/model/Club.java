@@ -10,8 +10,9 @@ public class Club {
     private String foundationDate; // Foundation date
     //Relations
     private ArrayList<Employee> employees;
-    private DressingRoom[][] dressingRoom;
-    private Office[][] office;
+    private Player[][] dressingRoom1;
+    private Player[][] dressingRoom2;
+    private Coach[][] office;
     private Team teamA;
     private Team teamB;
 
@@ -20,8 +21,9 @@ public class Club {
         this.nit = nit;
         this.foundationDate = creationDate;
         employees = new ArrayList<Employee>();
-        dressingRoom = new DressingRoom[7][7];
-        office = new Office[6][6];
+        dressingRoom1 = new Player[7][7];
+        dressingRoom2 = new Player[7][6];
+        office = new Coach[6][6];
         teamA = new Team("A");
         teamB = new Team("B");
     }
@@ -37,22 +39,20 @@ public class Club {
      * @return String, with a confirmation message
      */
     public String addPlayer(int index,String name, String idNum, int salary,
-    String numberInShirt,int numberOfGoals, String position){
+    String numberInShirt,int numberOfGoals, String position, double averageRating){
         String msg = "";
         Position playerPosition = Position.valueOf(position);
         //! Resolvemos si el jugador a añadir es del equipo A o B
         if(index == 1){
-            //Todo tomorrow: Fix this fucking shit
-            Player myPlayer = new Player(name, idNum, salary, numberInShirt, numberOfGoals, playerPosition);
+            Player myPlayer = new Player(name, idNum, salary, numberInShirt, numberOfGoals, playerPosition, averageRating);
             boolean booleanPlayer = teamA.addPlayer(myPlayer);
             if(booleanPlayer){
-                System.out.println("Entró a la condición");
                 employees.add(myPlayer);
                 msg = "Jugador añadido al equipo y a la nomina de manera correcta";
             }
             else{msg = "No se ha podido añadir al jugador";}
         }else{
-            Player thisPlayer = new Player(name, idNum, salary, numberInShirt, numberOfGoals, playerPosition);
+            Player thisPlayer = new Player(name, idNum, salary, numberInShirt, numberOfGoals, playerPosition, averageRating);
             boolean booleanPlayer = teamB.addPlayer(thisPlayer);
             if(booleanPlayer){
                 employees.add(thisPlayer);
@@ -173,10 +173,101 @@ public class Club {
             msg = teamB.showTeamInfo();
         }else{
             msg += "Team A\n";
+            msg += "***************\n";
             msg += teamA.showTeamInfo();
+            msg += "Dressing room team A\n";
+            msg += "";
+            for(int i = 0; i < dressingRoom1.length; i++){
+                for(int j = 0 ; j < dressingRoom1[0].length; j++){
+                    if(dressingRoom1[i][j] == null){
+                        msg += "vacío\t";
+                    }else{
+                        msg += dressingRoom1[i][j].getName() + "\t";
+                    }
+                }
+                msg += "\n";
+            }
             msg += "Team B\n";
+            msg += "***************\n";
             msg += teamB.showTeamInfo();
+            msg += "Dressing room team B\n";
+            for(int i = 0; i < dressingRoom2.length; i++){
+                for(int j = 0 ; j < dressingRoom2[0].length; j++){
+                    if(dressingRoom2[i][j] == null){
+                        msg += "vacío\t";
+                    }else{
+                        msg += dressingRoom2[i][j].getName() + "\t";
+                    }
+                }
+                msg += "\n";
+            }
+            msg += "Offices\n";
+            msg += "***************\n";
+            for(int i = 0; i < office.length; i++){
+                for(int j = 0; j < office[0].length; j++){
+                    if(office[i][j] == null){
+                        msg += "vacío\t";
+                    }else{
+                        msg += office[i][j].getName() +"\t";
+                    }
+                }
+                msg += "\n";
+            }
         }
+        return msg;
+    }
+    public String fillDressingRoom(){
+        String msg = "";
+        Player[] playersToFill1 = teamA.getPlayers();
+        Player[] playersToFill2 = teamB.getPlayers();
+        boolean out1 = false;
+        for(int k = 0; k < playersToFill1.length; k++){
+            if(playersToFill1[k] != null){
+                for(int i = 0; i < dressingRoom1.length && !out1; i = i+2){
+                    for(int j = 0; j < dressingRoom1[0].length && !out1; j = j+2){
+                        if(dressingRoom1[i][j] == null){
+                            dressingRoom1[i][j] = playersToFill1[k];
+                            out1 = true;
+                        }
+                    }
+                }
+                out1 = false;
+            }  
+        }
+        boolean out2 = false;
+        for(int k = 0; k < playersToFill2.length; k++){
+            if(playersToFill2[k] != null){
+                for(int i = 0; i < dressingRoom2.length && !out2; i = i+2){
+                    for(int j = 0; j < dressingRoom2[0].length && !out2; j = j+2){
+                        if(dressingRoom2[i][j] == null){
+                            dressingRoom2[i][j] = playersToFill2[k];
+                            out2 = true;
+                        }
+                    }
+                }
+                out2 = false;
+            }  
+        }
+        msg = "Camerinos llenos con éxito";
+        return msg;
+    }
+    public String fillOffices(){
+        String msg = "";
+        boolean out = false;
+        for(int h = 0; h < employees.size(); h++){
+            if(employees.get(h) instanceof Coach){
+                for(int i = 0; i < office.length && !out; i = i+2){
+                    for(int j = 0; j < office[0].length && !out; j = j+2){
+                        if(office[i][j] == null){
+                            office[i][j] = ((Coach) employees.get(h));
+                            out = true;
+                        }
+                    }
+                }
+            }
+            out = false;
+        }
+        msg = "Oficinas llenas con éxito";
         return msg;
     }
 
@@ -213,19 +304,11 @@ public class Club {
         this.foundationDate = foundationDate;
     }
 
-    public DressingRoom[][] getDressingRoom() {
-        return dressingRoom;
-    }
-
-    public void setDressingRoom(DressingRoom[][] dressingRoom) {
-        this.dressingRoom = dressingRoom;
-    }
-
-    public Office[][] getOffice() {
+    public Coach[][] getOffice() {
         return office;
     }
 
-    public void setOffice(Office[][] office) {
+    public void setOffice(Coach[][] office) {
         this.office = office;
     }
 
@@ -243,6 +326,22 @@ public class Club {
 
     public void setTeamB(Team teamB) {
         this.teamB = teamB;
+    }
+
+    public Player[][] getDressingRoom1() {
+        return dressingRoom1;
+    }
+
+    public void setDressingRoom1(Player[][] dressingRoom1) {
+        this.dressingRoom1 = dressingRoom1;
+    }
+
+    public Player[][] getDressingRoom2() {
+        return dressingRoom2;
+    }
+
+    public void setDressingRoom2(Player[][] dressingRoom2) {
+        this.dressingRoom2 = dressingRoom2;
     }
 
 }

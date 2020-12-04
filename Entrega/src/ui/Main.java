@@ -36,7 +36,9 @@ public class Main {
 				"(1) Create a player \n" +
 				"(2) Create a Coach \n"+
 				"(3) Fire Employee \n"+
-				"(4) Show club info \n" +  
+				"(4) Show club info \n" +
+				"(5) Fill dressing rooms \n" +
+				"(6) Fill offices \n" + 
 				"(0) To leave the application"
 				);
 		option= sc.nextInt();
@@ -73,6 +75,13 @@ public class Main {
 
 		case 4:
 			showClubInfo();
+			break;
+		
+		case 5:
+			fillDressingRoom();
+			break;
+		case 6:
+			fillOffices();
 			break;
 		
 		default:
@@ -116,7 +125,9 @@ public class Main {
 		numberInShirt = sc.nextLine();
 		System.out.println("Enter the amount of goals:");
 		numberOfGoals = sc.nextInt();
-		System.out.println(myClub.addPlayer(index, name, idNum, salary, numberInShirt, numberOfGoals, position));
+		System.out.println("Enter the average rating of the player");
+		double averageRating = sc.nextDouble();
+		System.out.println(myClub.addPlayer(index, name, idNum, salary, numberInShirt, numberOfGoals, position, averageRating));
 	}	
 	private void addMainCoach(){
 		String name, idNum, coachSkill;
@@ -186,7 +197,7 @@ public class Main {
 	}
 	private void fireEmployee(){
 		int team, index;
-		System.out.println("Is from team A or Team B?");
+		System.out.println("Is from Team (1) A or Team (2) B?");
 		team = sc.nextInt();
 		System.out.println("Select the employee");
 		System.out.println(myClub.showAllEmployeesWithIndex());
@@ -198,5 +209,11 @@ public class Main {
 		System.out.println("(1) Team A\n(2) Team B\n(3) Both Teams");
 		index = sc.nextInt();
 		System.out.println(myClub.showClubInfo(index));
+	}
+	private void fillDressingRoom(){
+		System.out.println(myClub.fillDressingRoom());
+	}
+	private void fillOffices(){
+		System.out.println(myClub.fillOffices());
 	}
 }
