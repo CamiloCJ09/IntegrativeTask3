@@ -22,7 +22,11 @@ public class CoachAssistant extends Coach {
     @Override
     public String employeeToString() {
         String msg = super.employeeToString();
-        msg += "CoachAssistant [wasPlayer=" + wasPlayer + "]";
+        if(wasPlayer){
+            msg += "Was player: Yes";
+        }else{
+            msg += "Was Player: No";
+        }
         return msg;
     }
 

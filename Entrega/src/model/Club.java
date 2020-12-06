@@ -151,16 +151,69 @@ public class Club {
         if(team == 1){
             if(teamA.fireEmployee(toFind)){
                 employees.get(index).setStatus(Status.INACTIVE);
-                msg = "Empleado despedido con éxito";
+                msg = "Empleado despedido con éxito\n";
+                if(employees.get(index) instanceof Coach){
+                    msg += deleteFromOffices(toFind);
+                }else{
+                    msg += deleteFromDressingRoom(team, toFind);
+                }
+                
             }else{
-                msg = "No se ha podido despedir al empleado";
+                msg = "No se ha podido despedir al empleado\n";
             }
         }else{
             if(teamB.fireEmployee(toFind)){
                 employees.get(index).setStatus(Status.INACTIVE);
-                msg = "Empleado despedido con éxito";
+                msg = "Empleado despedido con éxito\n";
+                if(employees.get(index) instanceof Coach){
+                    msg += deleteFromOffices(toFind);
+                }else{
+                    msg += deleteFromDressingRoom(index, toFind);
+                }
             }else{
-                msg = "No se ha podido despedir al empleado";
+                msg = "No se ha podido despedir al empleado\n";
+            }
+        }
+        return msg;
+    }
+    public String deleteFromDressingRoom(int index, String idNum){
+        String msg = "";
+        boolean out = false;
+        if(index == 1){
+            for(int i = 0; i < dressingRoom1.length && !out; i++){
+                for(int j = 0; j < dressingRoom1[0].length && !out; j++){
+                    if(dressingRoom1[i][j] != null){
+                        if(dressingRoom1[i][j].getIdNum().equals(idNum)){
+                            dressingRoom1[i][j] = null;
+                            out = true;
+                        }
+                    }
+                }
+            }
+        }else{
+            for(int i = 0; i < dressingRoom2.length && !out; i++){
+                for(int j = 0; j < dressingRoom2[0].length && !out; j++){
+                    if(dressingRoom2[i][j] != null){
+                        if(dressingRoom2[i][j].getIdNum().equals(idNum)){
+                            dressingRoom2[i][j] = null;
+                            out = true;
+                        }
+                    }
+                }
+            }
+        }
+        return msg;
+    }
+    public String deleteFromOffices(String idNum){
+        String msg = "";
+        for(int i = 0; i < office.length; i++){
+            for(int j = 0; j < office[0].length; j++){
+                if(office[i][j] != null){
+                    if(office[i][j].getIdNum().equals(idNum)){
+                        office[i][j] = null;
+                        msg = "Empleado fuera de las oficinas con éxito\n";
+                    }
+                }
             }
         }
         return msg;
@@ -172,6 +225,11 @@ public class Club {
         }else if(index == 2){
             msg = teamB.showTeamInfo();
         }else{
+            msg += "All employees\n";
+            for(int i = 0; i < employees.size(); i++){
+                msg += "***************\n";
+                msg += ((Employee) employees.get(i)).employeeToString()+"\n";
+            }
             msg += "Team A\n";
             msg += "***************\n";
             msg += teamA.showTeamInfo();
@@ -187,6 +245,7 @@ public class Club {
                 }
                 msg += "\n";
             }
+            msg += teamA.showFormations();
             msg += "Team B\n";
             msg += "***************\n";
             msg += teamB.showTeamInfo();
@@ -201,6 +260,7 @@ public class Club {
                 }
                 msg += "\n";
             }
+            msg += teamB.showFormations();
             msg += "Offices\n";
             msg += "***************\n";
             for(int i = 0; i < office.length; i++){
@@ -255,7 +315,7 @@ public class Club {
         String msg = "";
         boolean out = false;
         for(int h = 0; h < employees.size(); h++){
-            if(employees.get(h) instanceof Coach){
+            if((employees.get(h) instanceof Coach) && (employees.get(h).getStatus().equals(Status.ACTIVE))){
                 for(int i = 0; i < office.length && !out; i = i+2){
                     for(int j = 0; j < office[0].length && !out; j = j+2){
                         if(office[i][j] == null){
@@ -270,7 +330,24 @@ public class Club {
         msg = "Oficinas llenas con éxito";
         return msg;
     }
-
+    public String addFormation(String date, String formation, int team, String tactics){
+        String msg = "";
+        String[] formationValuesString = formation.split("-");
+        int[] formationValuesInt = new int[formationValuesString.length];
+        Tactics formationTactics = Tactics.valueOf(tactics);
+        for(int i = 0; i < formationValuesString.length; i++){
+            formationValuesInt[i] = Integer.parseInt(formationValuesString[i]);
+        }
+        if(team == 1){
+            teamA.addFormation(date, formationValuesInt, formationTactics);
+            msg += "Added successfully";
+        }else{
+            teamB.addFormation(date, formationValuesInt, formationTactics);
+            msg += "Added successfully";
+        }
+        return msg;
+    }
+    
     //! Setters and getters
     public ArrayList<Employee> getEmployees() {
         return employees;

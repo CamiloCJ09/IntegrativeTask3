@@ -2,7 +2,8 @@ package ui;
 import java.util.Scanner;
 
 import model.Club;
-import model.Skill;
+
+
 
 public class Main {
     private Scanner sc;
@@ -39,6 +40,7 @@ public class Main {
 				"(4) Show club info \n" +
 				"(5) Fill dressing rooms \n" +
 				"(6) Fill offices \n" + 
+				"(7) Add formation\n"+
 				"(0) To leave the application"
 				);
 		option= sc.nextInt();
@@ -82,6 +84,9 @@ public class Main {
 			break;
 		case 6:
 			fillOffices();
+			break;
+		case 7:
+			addFormation();
 			break;
 		
 		default:
@@ -215,5 +220,34 @@ public class Main {
 	}
 	private void fillOffices(){
 		System.out.println(myClub.fillOffices());
+	}
+	private void addFormation(){
+		System.out.println("Is from Team (1) A or Team (2) B?");
+		int team = sc.nextInt();
+		sc.nextLine();
+		System.out.println("Enter formation");
+		String formation = sc.nextLine();
+		System.out.println("Enter formation date");
+		String date = sc.nextLine();
+		System.out.println("Enter formation");
+		System.out.println("(1) POSESION\n(2) CONTRATACK\n(3) HIGHPRESSURE\n(4) DEFAULT\n");
+		int decision = sc.nextInt();
+		String tactics = "";
+		switch (decision) {
+			case 1:
+				tactics = "POSESION";
+				break;
+		
+			case 2:
+				tactics = "CONTRATACK";
+				break;
+			case 3:
+				tactics = "HIGHPRESSURE";
+				break;
+			case 4:
+				tactics = "DEFAULT";
+				break;
+		}
+		System.out.println(myClub.addFormation(date, formation, team, tactics));
 	}
 }

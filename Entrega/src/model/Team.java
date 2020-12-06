@@ -104,6 +104,7 @@ public class Team {
     }
 
     public String showTeamInfo(){
+
         String msg = "";
         msg += "Main Coach:\n";
         if(mainCoach != null){
@@ -129,6 +130,22 @@ public class Team {
         }
         return msg;
     }
+    public String addFormation(String date, int[] formationValues, Tactics formationTactics){
+        String msg = "";
+        LineUp myLineUp = new LineUp(date, formationTactics);
+        myLineUp.organizeFormation(formationValues);
+        lineUp.add(myLineUp);
+        return msg;
+    }
+    public String showFormations(){
+        String msg = "";
+        for(int i = 0; i < lineUp.size(); i++){
+            msg += "LineUp ************\n";
+            msg += lineUp.get(i).formationToString();
+        }
+        return msg;
+    }
+    //public int 
     //! Setters and getters
     public String getName() {
         return name;
