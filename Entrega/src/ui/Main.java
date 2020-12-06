@@ -211,7 +211,7 @@ public class Main {
 	}
 	private void showClubInfo(){
 		int index = 0;
-		System.out.println("(1) Team A\n(2) Team B\n(3) Both Teams");
+		System.out.println("(1) Team A players and coaches\n(2) Team B players and coaches\n(3) All Club information");
 		index = sc.nextInt();
 		System.out.println(myClub.showClubInfo(index));
 	}
@@ -225,7 +225,7 @@ public class Main {
 		System.out.println("Is from Team (1) A or Team (2) B?");
 		int team = sc.nextInt();
 		sc.nextLine();
-		System.out.println("Enter formation");
+		System.out.println("Enter formation\nExample: 4-3-3\nAlways use the character ( - )");
 		String formation = sc.nextLine();
 		System.out.println("Enter formation date");
 		String date = sc.nextLine();

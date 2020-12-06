@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Arrays;
-
 public class LineUp {
     private String date;
     private int[][] formation;
